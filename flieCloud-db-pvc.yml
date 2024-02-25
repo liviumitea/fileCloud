@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: flieCloud-db-pvc
+  name: filecloud-db-pvc
   namespace: filecloud
 spec:
   accessModes:
@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  volumeName: "flieCloud-db-pv"
+  volumeName: "filecloud-db-pv"
