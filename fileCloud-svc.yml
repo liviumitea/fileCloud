@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: filecloud-server
+  namespace: filecloud
+spec:
+  selector:
+    app: filecloud-server
+  type: LoadBalancer  # Expose FileCloud server outside the cluster
+  loadBalancerIP: 172.16.23.26
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  - protocol: TCP
+    port: 443
+    targetPort: 443

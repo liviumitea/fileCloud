@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filecloud-mongodb
+  namespace: filecloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filecloud-mongodb
+  template:
+    metadata:
+      labels:
+        app: filecloud-mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:6.0.8
+        volumeMounts:
+        - name: mongo-database-volume
+          mountPath: /data/db
+      volumes:
+      - name: mongo-database-volume
+        persistentVolumeClaim:
+          claimName: flieCloud-db-pvc
