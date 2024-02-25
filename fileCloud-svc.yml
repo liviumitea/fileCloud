@@ -6,8 +6,6 @@ metadata:
 spec:
   selector:
     app: filecloud-server
-  type: LoadBalancer  # Expose FileCloud server outside the cluster
-  loadBalancerIP: 172.16.23.26
   ports:
   - protocol: TCP
     port: 80
@@ -15,3 +13,5 @@ spec:
   - protocol: TCP
     port: 443
     targetPort: 443
+  type: LoadBalancer
+  loadBalancerIP: 172.16.23.26
