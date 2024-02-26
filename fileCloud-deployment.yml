@@ -19,8 +19,8 @@ spec:
         environment:
           - ALLOW_EMPTY_PASSWORD=yes
         depends_on:
-            - "filecloud.mongodb"
-            - "filecloud.preview"
+            - filecloudmongodb
+            - filecloudpreview
         volumeMounts:
         - name: cloud-data-volume
           mountPath: /var/clouddata
@@ -29,14 +29,14 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
-      - name: "filecloud.preview"
+      - name: filecloudpreview
         image: filecloud/filecloudpreview22.1:latest
         volumeMounts:
         - name: cloud-data-volume
           mountPath: /var/clouddata
         - name: var-html-volume
           mountPath: /var/www/html
-      - name: "filecloud.solr"
+      - name: filecloudsolr
         image: filecloud/filecloudsolr21.3:latest
         volumeMounts:
         - name: cloud-data-volume
