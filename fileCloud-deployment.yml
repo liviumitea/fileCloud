@@ -25,8 +25,8 @@ spec:
           exec:
             command:
             - cat
-          initialDelaySeconds: 15
-          periodSeconds: 15
+          initialDelaySeconds: 40
+          periodSeconds: 40
         volumeMounts:
         - name: cloud-data-volume
           mountPath: /var/clouddata
@@ -35,6 +35,20 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
+      - name: filecloudpreview
+        image: filecloud/filecloudpreview22.1:latest
+        volumeMounts:
+        - name: cloud-data-volume
+          mountPath: /var/clouddata
+        - name: var-html-volume
+          mountPath: /var/www/html
+      - name: filecloudsolr
+        image: filecloud/filecloudsolr21.3:latest
+        volumeMounts:
+        - name: cloud-data-volume
+          mountPath: /var/clouddata
+        - name: var-html-volume
+          mountPath: /var/www/html
       volumes:
       - name: cloud-data-volume
         hostPath:
