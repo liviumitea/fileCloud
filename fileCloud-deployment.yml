@@ -22,6 +22,9 @@ spec:
             - filecloudmongodb
             - filecloudpreview
         livenessProbe:
+          exec:
+            command:
+            - cat
           initialDelaySeconds: 15
           periodSeconds: 15
         volumeMounts:
