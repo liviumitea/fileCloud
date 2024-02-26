@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filecloud-server
+  namespace: filecloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filecloud-server
+  template:
+    metadata:
+      labels:
+        app: filecloud-server
+    spec:
+      containers:
+      - name: filecloudpreview
+        image: filecloud/filecloudpreview22.1:latest
+        volumeMounts:
+        - name: cloud-data-volume
+          mountPath: /var/clouddata
+        - name: var-html-volume
+          mountPath: /var/www/html
+      volumes:
+      - name: cloud-data-volume
+        hostPath:
+          path: /data-nfs/fileCloud/data
+          type: Directory
+      - name: var-html-volume
+        hostPath:
+          path: /data-nfs/fileCloud/var
+          type: Directory
