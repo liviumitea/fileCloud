@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: mongo:6.0.8
+        image: mla10/mongo:latest
         volumeMounts:
         - name: mongo-database-volume
           mountPath: /data/db

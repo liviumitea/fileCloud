@@ -15,7 +15,12 @@ spec:
     spec:
       containers:
       - name: filecloud-server
-        image: bitnami/moodle:latest
+        image: filecloud/filecloudserver23.1:latest
+        environment:
+          - ALLOW_EMPTY_PASSWORD=yes
+        depends_on:
+            - filecloud.mongodb
+            - filecloud.preview
         volumeMounts:
         - name: cloud-data-volume
           mountPath: /var/clouddata
@@ -24,6 +29,20 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
+      - name: filecloud.preview
+        image: filecloud/filecloudpreview22.1:latest
+        volumeMounts:
+        - name: cloud-data-volume
+          mountPath: /var/clouddata
+        - name: var-html-volume
+          mountPath: /var/www/html
+      - name: filecloud.solr
+        image: filecloud/filecloudsolr21.3:latest
+        volumeMounts:
+        - name: cloud-data-volume
+          mountPath: /var/clouddata
+        - name: var-html-volume
+          mountPath: /var/www/html
       volumes:
       - name: cloud-data-volume
         hostPath:
