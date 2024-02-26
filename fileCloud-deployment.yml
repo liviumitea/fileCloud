@@ -16,15 +16,13 @@ spec:
       containers:
       - name: filecloud-server
         image: filecloud/filecloudserver23.1:latest
-        environment:
-          - ALLOW_EMPTY_PASSWORD=yes
-        depends_on:
-            - filecloudmongodb
-            - filecloudpreview
+        env:
+          - name: ALLOW_EMPTY_PASSWORD
+            value: "yes"
         livenessProbe:
           exec:
             command:
-            - cat
+            - cat # Specify a valid file or command
           initialDelaySeconds: 40
           periodSeconds: 40
         volumeMounts:
