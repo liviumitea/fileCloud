@@ -21,6 +21,9 @@ spec:
         depends_on:
             - filecloudmongodb
             - filecloudpreview
+        livenessProbe:
+          initialDelaySeconds: 15
+          periodSeconds: 15
         volumeMounts:
         - name: cloud-data-volume
           mountPath: /var/clouddata
