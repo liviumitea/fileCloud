@@ -1,6 +1,78 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: filecloud-preview
+  namespace: filecloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filecloud-preview
+  template:
+    metadata:
+      labels:
+        app: filecloud-preview
+    spec:
+      containers:
+      - name: filecloudpreview
+        image: filecloud/filecloudpreview22.1:latest
+        volumeMounts:
+        - name: cloud-data-volume
+          mountPath: /var/clouddata
+        - name: var-html-volume
+          mountPath: /var/www/html
+      volumes:
+      - name: cloud-data-volume
+        hostPath:
+          path: /data-nfs/fileCloud/data
+          type: Directory
+      - name: var-html-volume
+        hostPath:
+          path: /data-nfs/fileCloud/var
+          type: Directory
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filecloud-solr
+  namespace: filecloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filecloud-solr
+  template:
+    metadata:
+      labels:
+        app: filecloud-solr
+    spec:
+      containers:
+      - name: filecloudsolr
+        image: filecloud/filecloudsolr21.3:latest
+        volumeMounts:
+        - name: cloud-data-volume
+          mountPath: /var/clouddata
+        - name: var-html-volume
+          mountPath: /var/www/html
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+      volumes:
+      - name: cloud-data-volume
+        hostPath:
+          path: /data-nfs/fileCloud/data
+          type: Directory
+      - name: var-html-volume
+        hostPath:
+          path: /data-nfs/fileCloud/var
+          type: Directory
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: filecloud-server
   namespace: filecloud
 spec:
@@ -14,20 +86,6 @@ spec:
         app: filecloud-server
     spec:
       containers:
-      - name: filecloudpreview
-        image: filecloud/filecloudpreview22.1:latest
-        volumeMounts:
-        - name: cloud-data-volume
-          mountPath: /var/clouddata
-        - name: var-html-volume
-          mountPath: /var/www/html
-      - name: filecloudsolr
-        image: filecloud/filecloudsolr21.3:latest
-        volumeMounts:
-        - name: cloud-data-volume
-          mountPath: /var/clouddata
-        - name: var-html-volume
-          mountPath: /var/www/html
       - name: filecloud-server
         image: filecloud/filecloudserver23.1:latest
         env:
